@@ -1,7 +1,7 @@
 # Exintaris & Kafas — website
 
 Bilingual (Greek / English) website for Exintaris & Kafas LTD, customs brokers in Thessaloniki.
-Built with [Astro](https://astro.build) as a static site and hosted on Cloudflare Pages.
+Built with [Astro](https://astro.build) as a static site and hosted on Cloudflare Workers.
 
 ## Run it on your computer
 
@@ -13,21 +13,31 @@ npm run dev      # opens a live preview at http://localhost:4321
 npm run build    # builds the final site into /dist
 ```
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare Workers)
 
-Every push to `main` on GitHub redeploys automatically. Build settings:
+The site runs as a Cloudflare **Worker** with static assets:
+https://customs-broker-website.stavros-tsentemeidis.workers.dev
+
+Every push to `main` on GitHub redeploys automatically. Settings in
+**Workers & Pages → customs-broker-website → Settings → Build**:
 
 | Setting | Value |
 |---|---|
-| Framework preset | Astro |
 | Build command | `npm run build` |
-| Build output directory | `dist` |
-| Environment variable | `NODE_VERSION` = `22` |
+| Deploy command | `npx wrangler deploy` |
+
+- `wrangler.jsonc` tells Cloudflare to serve the built pages from `dist/` and to run
+  `worker/index.ts` for the quote form (`/api/quote`). The `name` in it must match the
+  Worker name in the dashboard.
+- `.nvmrc` pins Node.js 22 for the build.
+- When the real domain is connected, update `site` in `astro.config.mjs` and the
+  `Sitemap:` line in `public/robots.txt`.
 
 ### Quote form emails
-The form posts to `functions/api/quote.ts` (a Cloudflare Pages Function). To receive the
-requests by email, add `RESEND_API_KEY`, `QUOTE_TO` and `QUOTE_FROM` under
-**Settings → Variables and secrets** in the Cloudflare project. Details are in the file.
+The form logic lives in `functions/api/quote.ts`. To receive requests by email, add
+`RESEND_API_KEY`, `QUOTE_TO` and `QUOTE_FROM` under **Settings → Variables and Secrets**
+of the Worker (use type "Secret" for the API key). Until then, requests are accepted and
+only written to the Worker logs (**Observability** tab).
 
 ## Where to edit things
 
@@ -46,7 +56,6 @@ requests by email, add `RESEND_API_KEY`, `QUOTE_TO` and `QUOTE_FROM` under
 - Team photos: add them to `public/team/` and reference them in `site.ts`
 - Warehouse address in `src/data/site.ts`
 - Privacy policy text (marked as placeholder)
-- `site` URL in `astro.config.mjs` once the final domain is connected
 
 ### Open questions for the team
 Things to confirm with the office before the site goes live. Answers go into `src/data/site.ts`

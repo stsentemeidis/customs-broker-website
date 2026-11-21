@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Update the domain when the final address is connected (same as `site` in astro.config.mjs)
-Sitemap: https://exintaris-kafas.pages.dev/sitemap-index.xml
+Sitemap: https://customs-broker-website.stavros-tsentemeidis.workers.dev/sitemap-index.xml

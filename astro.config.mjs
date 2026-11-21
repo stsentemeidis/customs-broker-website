@@ -2,10 +2,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Static site deployed on Cloudflare Pages.
+// Static site deployed on Cloudflare (Workers static assets, see wrangler.jsonc).
 // Change `site` once the final domain is connected.
 export default defineConfig({
-  site: 'https://exintaris-kafas.pages.dev',
+  site: 'https://customs-broker-website.stavros-tsentemeidis.workers.dev',
   trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [

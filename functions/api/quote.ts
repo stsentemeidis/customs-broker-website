@@ -1,8 +1,8 @@
-// Cloudflare Pages Function: POST /api/quote
+// POST /api/quote — used by worker/index.ts (Cloudflare Workers) and also works as a Pages Function.
 // Receives the quote request form and emails it to the office.
 //
 // To activate email delivery, add these environment variables in
-// Cloudflare → Workers & Pages → (project) → Settings → Variables and secrets:
+// Cloudflare → Workers & Pages → customs-broker-website → Settings → Variables and Secrets:
 //   RESEND_API_KEY   API key from https://resend.com (free tier is enough)
 //   QUOTE_TO         Address that receives requests, e.g. info@exintaris-kafas.gr
 //   QUOTE_FROM       Verified sender, e.g. "Website <website@exintaris-kafas.gr>"
