@@ -38,13 +38,13 @@ requests by email, add `RESEND_API_KEY`, `QUOTE_TO` and `QUOTE_FROM` under
 | All English texts | `src/i18n/en.ts` |
 | Colours, fonts, spacing | `src/styles/global.css` (top of file) |
 | Logo files (SVG, PNG) | `public/brand/` |
+| Downloadable forms (PDF) | `public/docs/` |
 | Old-site redirects | `public/_redirects` |
 
 ### Placeholders still to replace
 - Founding year (1990) and the five team members in `src/data/site.ts`
 - Team photos: add them to `public/team/` and reference them in `site.ts`
 - Warehouse address in `src/data/site.ts`
-- Office PDFs (EORI form, sworn declaration, ICISnet guide) in `faq.ownDocs`
 - Privacy policy text (marked as placeholder)
 - `site` URL in `astro.config.mjs` once the final domain is connected
 

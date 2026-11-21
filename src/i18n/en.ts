@@ -261,11 +261,11 @@ const en = {
           },
           {
             q: 'Do I need an EORI number and how do I get one?',
-            a: '<p>Yes. Every business or person established in Greece that takes part in customs procedures needs an EORI number. For Greek operators it is <strong>GR followed by the tax number (AFM)</strong>.</p><ul><li>Apply electronically through the AADE application <em>"Τα Αιτήματά μου"</em> (My Requests), or by email to the competent customs office.</li><li>Individuals attach a copy of their ID card or passport. Companies need no documents; customs checks their details through GEMI.</li><li>There is no fee. Apply before your first shipment to avoid delays.</li></ul><p>We can prepare the application for you.</p>',
+            a: '<p>Yes. Every business or person established in Greece that takes part in customs procedures needs an EORI number. For Greek operators it is <strong>GR followed by the tax number (AFM)</strong>.</p><ul><li>Apply electronically through the AADE application <em>"Τα Αιτήματά μου"</em> (My Requests), or by email to the competent customs office.</li><li>Individuals attach a copy of their ID card or passport. Companies need no documents; customs checks their details through GEMI.</li><li>There is no fee. Apply before your first shipment to avoid delays.</li></ul><p>We can prepare the application for you. You can also download the <a href="/docs/eori-application.pdf" download>application form</a> and the <a href="/docs/eori-sworn-declaration.pdf" download>sworn declaration</a>.</p>',
           },
           {
             q: 'What is the ICISnet authorisation?',
-            a: '<p>ICISnet is the electronic customs system of AADE. Before we can submit declarations in your name, you give us an <strong>electronic authorisation</strong> in the system. It is done once and stays valid until you revoke it. We will walk you through it step by step.</p>',
+            a: '<p>ICISnet is the electronic customs system of AADE. Before we can submit declarations in your name, you give us an <strong>electronic authorisation</strong> in the system. It is done once and stays valid until you revoke it. We will walk you through it step by step, or you can follow the <a href="/docs/icisnet-authorisation-guide.pdf" download>official step-by-step guide (PDF)</a>.</p>',
           },
           {
             q: 'How much does customs clearance cost?',
@@ -348,9 +348,9 @@ const en = {
     ],
     ownDocsTitle: 'Our forms',
     ownDocs: [
-      { title: 'EORI application form', note: 'PDF to be added' },
-      { title: 'Sworn declaration for EORI', note: 'PDF to be added' },
-      { title: 'ICISnet authorisation guide', note: 'PDF to be added' },
+      { title: 'EORI number application form', note: 'PDF, Greek / English · 1 page', href: '/docs/eori-application.pdf' },
+      { title: 'Sworn declaration for EORI (Law 1599/1986)', note: 'PDF, Greek · 1 page', href: '/docs/eori-sworn-declaration.pdf' },
+      { title: 'ICISnet electronic authorisation: step-by-step guide', note: 'PDF, Greek · 6 pages', href: '/docs/icisnet-authorisation-guide.pdf' },
     ],
   },
   contact: {

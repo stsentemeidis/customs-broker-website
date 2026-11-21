@@ -1,6 +1,6 @@
 ---
-import { t, url, stripLang, type Lang } from '../i18n';
-import { site } from '../data/site';
+import { t, url, stripLang, languages, langCodes, type Lang } from '../i18n';
+import { site, serviceSlugs, serviceIcons } from '../data/site';
 import Logo from './Logo.astro';
 import LangSwitcher from './LangSwitcher.astro';
 import Icon from './Icon.astro';
@@ -22,11 +22,38 @@ const links = [
     <Logo lang={lang} />
     <nav class="nav" aria-label="Main" id="main-nav" data-nav>
       <ul role="list" class="nav__list">
-        {links.map((l) => (
+        {links.map((l) => l.href === 'services' ? (
+          <li class="nav__item--has-menu">
+            <a href={url(lang, l.href)} aria-current={current === l.href ? 'page' : undefined} aria-haspopup="true">
+              {l.label}<Icon name="chevron" size={16} class="nav__chev" />
+            </a>
+            <div class="nav__menu">
+              <ul role="list">
+                {serviceSlugs.map((s) => (
+                  <li>
+                    <a href={url(lang, `services/${s}`)} class="nav__menu-link">
+                      <span class="nav__menu-icon"><Icon name={serviceIcons[s]} size={20} /></span>
+                      <span>
+                        <span class="nav__menu-title">{d.services.items[s].name}</span>
+                        <span class="nav__menu-desc">{d.services.items[s].short}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a href={url(lang, 'services')} class="nav__menu-all">{d.common.allServices}<Icon name="arrow" size={16} /></a>
+            </div>
+          </li>
+        ) : (
           <li><a href={url(lang, l.href)} aria-current={current === l.href ? 'page' : undefined}>{l.label}</a></li>
         ))}
       </ul>
       <div class="nav__mobile-extra">
+        <div class="nav__langs" aria-label={d.nav.language}>
+          {langCodes.map((code) => (
+            <a href={url(code, stripLang(Astro.url.pathname))} hreflang={languages[code].htmlLang} lang={languages[code].htmlLang} aria-current={code === lang ? 'true' : undefined}>{languages[code].label}</a>
+          ))}
+        </div>
         <a class="btn btn--primary btn--block" href={url(lang, 'contact')}>{d.nav.quote}</a>
         <a class="btn btn--ghost btn--block" href={`tel:${site.phones[0].tel}`}><Icon name="phone" size={18} />{site.phones[0].display}</a>
       </div>

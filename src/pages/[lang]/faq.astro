@@ -62,11 +62,11 @@ const faqLd = {
           <h3 style="margin-top:28px">{f.ownDocsTitle}</h3>
           <div class="doc-list">
             {f.ownDocs.map((doc) => (
-              <div class="doc doc--pending">
+              <a class="doc" href={doc.href} download>
                 <span class="doc__icon"><Icon name="download" size={22} /></span>
                 <span><span class="doc__title">{doc.title}</span><span class="doc__meta">{doc.note}</span></span>
-                <span class="placeholder-tag placeholder-tag--inline" style="margin-left:auto">{d.common.placeholder}</span>
-              </div>
+                <Icon name="file" size={18} />
+              </a>
             ))}
           </div>
           <p class="note"><Icon name="info" size={20} /><span set:html={f.disclaimer} /></p>
