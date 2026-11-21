@@ -75,7 +75,7 @@ ul[role='list'] { list-style: none; padding: 0; margin: 0; }
 
 /* ---------- Header ---------- */
 .header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s; }
-.header::before { content: ''; position: absolute; inset: 0; z-index: -1; background: rgb(255 255 255 / 0.92); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); }
+.header::before { content: ''; position: absolute; inset: 0; z-index: -1; background: #fff; }
 .nav-open .header::before { background: #fff; }
 .header.is-scrolled { border-color: var(--line); box-shadow: 0 6px 24px -18px rgb(11 42 74 / 0.4); }
 .header__inner { display: flex; align-items: center; gap: 24px; height: var(--header-h); }
@@ -451,6 +451,42 @@ fieldset.field { border: 0; margin: 0; padding: 0; min-width: 0; }
 .footer__bottom p { margin: 0; }
 @media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .footer__grid { grid-template-columns: 1fr; } }
+
+/* Where we clear */
+.where { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.where__item { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 22px; }
+.where__icon { width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center; background: var(--navy); color: var(--sky); margin-bottom: 16px; }
+.where__item h3 { font-size: 1.02rem; margin-bottom: 6px; }
+.where__item p { font-size: 0.93rem; color: var(--muted); margin: 0; }
+@media (max-width: 1100px) { .where { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .where { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 440px) { .where { grid-template-columns: 1fr; } .where__item { display: grid; grid-template-columns: 46px 1fr; column-gap: 14px; padding: 16px; } .where__icon { grid-row: span 2; margin: 0; } }
+
+/* Floating chat button */
+.chat { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 45; }
+.chat summary { list-style: none; }
+.chat summary::-webkit-details-marker { display: none; }
+.chat__toggle { display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 20px 0 16px; border-radius: 999px; background: var(--navy); color: #fff; font-weight: 600; cursor: pointer; box-shadow: var(--shadow-lg); transition: transform 0.2s var(--ease), background 0.2s; user-select: none; }
+.chat__toggle:hover { transform: translateY(-2px); background: var(--navy-700); }
+.chat__toggle .icon { color: var(--sky); }
+.chat__icon-close { display: none; }
+.chat[open] .chat__icon-open, .chat[open] .chat__label { display: none; }
+.chat[open] .chat__icon-close { display: inline-flex; }
+.chat[open] .chat__toggle { width: 56px; padding: 0; justify-content: center; }
+.chat__panel { position: absolute; right: 0; bottom: calc(100% + 12px); width: min(300px, calc(100vw - 40px)); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-lg); animation: rise 0.25s var(--ease) both; }
+.chat__title { font-weight: 650; color: var(--ink); margin: 0 0 4px; }
+.chat__text { font-size: 0.92rem; color: var(--muted); margin: 0 0 14px; }
+.chat__btn { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; border-radius: 999px; color: #fff; font-weight: 600; text-decoration: none; margin-top: 8px; transition: filter 0.2s; }
+.chat__btn:hover { color: #fff; filter: brightness(1.08); }
+.chat__btn--wa { background: #168a4a; }
+.chat__btn--viber { background: #6a52d9; }
+.nav-open .chat { display: none; }
+@media (max-width: 560px) { .chat { right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); } .chat__label { display: none; } .chat__toggle { width: 56px; padding: 0; justify-content: center; } }
+.footer__social { display: flex; align-items: center; gap: 10px; }
+.footer__icon-link { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgb(255 255 255 / 0.2); display: grid; place-items: center; color: #fff; }
+.footer__icon-link:hover { border-color: #fff; }
+.footer__bottom .placeholder-tag { vertical-align: baseline; }
+.footer__bottom p { line-height: 1.7; }
 
 /* ---------- Reveal on scroll ---------- */
 .js-reveal [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }

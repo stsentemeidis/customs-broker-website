@@ -5,6 +5,7 @@ import TowerArt from '../../components/TowerArt.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import FaqItem from '../../components/FaqItem.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import WhereWeClear from '../../components/WhereWeClear.astro';
 import { t, url, fill, langPaths, type Lang } from '../../i18n';
 import { site, serviceSlugs } from '../../data/site';
 
@@ -77,6 +78,8 @@ const faqPreview = [d.faq.groups[0].items[1], d.faq.groups[0].items[3], d.faq.gr
       </div>
     </div>
   </section>
+
+  <WhereWeClear lang={lang} tint />
 
   <!-- How it works -->
   <section class="section section--navy">

@@ -1,0 +1,24 @@
+---
+// Floating WhatsApp / Viber button (bottom-right on every page). Numbers in src/data/site.ts.
+import { t, type Lang } from '../i18n';
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const wa = `https://wa.me/${site.chat.whatsapp}`;
+const viber = `viber://chat?number=${encodeURIComponent(site.chat.viber)}`;
+---
+<details class="chat" data-chat>
+  <summary class="chat__toggle" aria-label={d.chat.open}>
+    <span class="chat__icon-open"><Icon name="chat" size={26} /></span>
+    <span class="chat__icon-close"><Icon name="x" size={24} /></span>
+    <span class="chat__label">{d.chat.open}</span>
+  </summary>
+  <div class="chat__panel">
+    <p class="chat__title">{d.chat.title}</p>
+    <p class="chat__text">{d.chat.text}</p>
+    <a class="chat__btn chat__btn--wa" href={wa} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} />{d.chat.whatsapp}</a>
+    <a class="chat__btn chat__btn--viber" href={viber}><Icon name="viber" size={22} />{d.chat.viber}</a>
+  </div>
+</details>

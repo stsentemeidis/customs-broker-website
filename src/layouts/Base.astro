@@ -5,6 +5,7 @@ import { t, languages, langCodes, stripLang, url, type Lang } from '../i18n';
 import { site } from '../data/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ChatButton from '../components/ChatButton.astro';
 
 interface Props { lang: Lang; title?: string; description?: string }
 const { lang, title, description } = Astro.props;
@@ -24,6 +25,8 @@ const jsonLd = {
   url: new URL(url(lang), Astro.site).href,
   logo: new URL('/brand/icon.svg', Astro.site).href,
   image: ogImage.href,
+  legalName: site.company.legalName.el,
+  vatID: site.company.placeholder ? undefined : site.company.vat,
   telephone: site.phones[0].tel,
   email: site.email,
   foundingDate: String(site.foundedYear),
@@ -37,6 +40,7 @@ const jsonLd = {
   geo: { '@type': 'GeoCoordinates', latitude: site.office.lat, longitude: site.office.lng },
   openingHours: site.hoursSchema,
   areaServed: 'GR',
+  sameAs: site.facebook ? [site.facebook] : undefined,
 };
 ---
 <!doctype html>
@@ -73,6 +77,7 @@ const jsonLd = {
       <slot />
     </main>
     <Footer lang={lang} />
+    <ChatButton lang={lang} />
     <script>
       // Reveal-on-scroll for elements with [data-reveal]
       const els = document.querySelectorAll('[data-reveal]');

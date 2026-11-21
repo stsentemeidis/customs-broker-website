@@ -30,6 +30,13 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${site.office.l
             </div>
           </div>
           <div class="contact-card">
+            <span class="contact-card__icon"><Icon name="chat" size={22} /></span>
+            <div>
+              <h3>{d.chat.whatsapp} · {d.chat.viber}</h3>
+              <p><a href={`https://wa.me/${site.chat.whatsapp}`} target="_blank" rel="noopener">{d.chat.whatsapp}</a><small>·</small> <a href={`viber://chat?number=${encodeURIComponent(site.chat.viber)}`}>{d.chat.viber}</a></p>
+            </div>
+          </div>
+          <div class="contact-card">
             <span class="contact-card__icon"><Icon name="mail" size={22} /></span>
             <div><h3>{d.common.email}</h3><p><a href={`mailto:${site.email}`}>{site.email}</a></p></div>
           </div>

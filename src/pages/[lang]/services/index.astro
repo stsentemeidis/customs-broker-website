@@ -4,6 +4,7 @@ import PageHero from '../../../components/PageHero.astro';
 import ServiceCard from '../../../components/ServiceCard.astro';
 import CtaBand from '../../../components/CtaBand.astro';
 import Icon from '../../../components/Icon.astro';
+import WhereWeClear from '../../../components/WhereWeClear.astro';
 import { t, langPaths, type Lang } from '../../../i18n';
 import { serviceSlugs } from '../../../data/site';
 
@@ -27,5 +28,6 @@ const d = t(lang);
       </div>
     </div>
   </section>
+  <WhereWeClear lang={lang} tint />
   <CtaBand lang={lang} />
 </Base>

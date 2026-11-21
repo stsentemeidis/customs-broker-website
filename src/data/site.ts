@@ -3,6 +3,23 @@
 // until real details are provided.
 
 export const site = {
+  // Legal details shown in the footer (required on Greek business websites).
+  // Replace with the real details from the company registration.
+  company: {
+    placeholder: true,
+    legalName: { el: 'Εξηντάρης Καφάς Ο.Ε.', en: 'Exintaris & Kafas LTD' },
+    gemi: '000000000000',
+    vat: 'EL000000000',
+    taxOffice: { el: 'Δ.Ο.Υ. —', en: 'Tax office —' },
+  },
+  // Messaging apps. Placeholder: confirm which mobile number uses WhatsApp / Viber.
+  chat: {
+    placeholder: true,
+    whatsapp: '306972916982', // international format, no + or spaces
+    viber: '+306972916982',
+  },
+  facebook: '', // e.g. 'https://www.facebook.com/…' — leave empty to hide
+
   foundedYear: 1990, // placeholder
   phones: [
     { display: '2310 517 932', tel: '+302310517932', type: 'landline' as const },
@@ -44,3 +61,13 @@ export const serviceIcons = {
   'outward-processing': 'recycle',
   'customs-warehousing': 'warehouse',
 } as const;
+
+// Where the office clears goods. Placeholder list: confirm with the team.
+export const clearancePoints = [
+  { key: 'port', icon: 'anchor' },
+  { key: 'airport', icon: 'planeArrival' },
+  { key: 'evzoni', icon: 'road' },
+  { key: 'promachonas', icon: 'road' },
+  { key: 'offices', icon: 'building' },
+] as const;
+export const clearancePointsPlaceholder = true;

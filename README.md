@@ -48,6 +48,39 @@ requests by email, add `RESEND_API_KEY`, `QUOTE_TO` and `QUOTE_FROM` under
 - Privacy policy text (marked as placeholder)
 - `site` URL in `astro.config.mjs` once the final domain is connected
 
+### Open questions for the team
+Things to confirm with the office before the site goes live. Answers go into `src/data/site.ts`
+or the translation files.
+
+**Company details**
+- [ ] Exact legal name and form: the Greek pages of the old site say "Εξηντάρης Καφάς Ο.Ε.", the brand uses "LTD"
+- [ ] GEMI number, VAT number (ΑΦΜ) and tax office (ΔΟΥ) for the footer
+- [ ] Facebook page address (or other social media), if any
+- [ ] Which mobile number(s) use WhatsApp / Viber
+
+**Claims to confirm**
+- [ ] "We reply usually within one working day" (contact page)
+- [ ] "5 specialists", "licensed customs brokers", founding year 1990
+- [ ] Customs warehouse: do they run their own? Address? "Close to the port"?
+- [ ] Clearance points: port of Thessaloniki, Makedonia airport, Evzoni, Promachonas, inland customs offices. Which ones do they actually use? Any others (e.g. Kipoi, Niki, Kakavia)?
+- [ ] Do they arrange transport? The old site says "customs and transport services"
+
+**Extra services: which of these do they offer?**
+- [ ] Vehicle imports (cars, motorbikes, trucks; ΔΑΟ / ΔΕΦΚ / registration tax)
+- [ ] Relocation / personal effects (μετοικεσία)
+- [ ] Excise goods (ΕΦΚ): alcohol, tobacco, fuel
+- [ ] Tariff classification and Binding Tariff Information (BTI)
+- [ ] Customs consulting: AEO applications, CBAM reports, customs audits
+- [ ] E-commerce and small parcels (IOSS, €3 duty)
+- [ ] Temporary admission and ATA carnets (exhibitions, samples, equipment)
+- [ ] Inward processing (ενεργητική τελειοποίηση)
+
+**Content to collect**
+- [ ] Team names, roles and photos
+- [ ] Office, team, port and warehouse photos
+- [ ] Partner logos (shipping lines, forwarders, warehouses)
+- [ ] Google Business Profile: create or claim it and ask clients for reviews
+
 ### Add a language
 1. Add it to `src/i18n/config.ts`
 2. Copy `src/i18n/en.ts` to e.g. `src/i18n/de.ts` and translate

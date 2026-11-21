@@ -402,6 +402,20 @@ const en = {
     rights: 'All rights reserved.',
     privacy: 'Privacy policy',
   },
+  legal: { gemi: 'GEMI no.', vat: 'VAT no.' },
+  chat: { open: 'Message us', close: 'Close', title: 'Message us directly', text: 'Send us a message on WhatsApp or Viber during office hours.', whatsapp: 'WhatsApp', viber: 'Viber' },
+  where: {
+    eyebrow: 'Where we work',
+    title: 'Clearance at every gateway of Northern Greece',
+    lead: 'Wherever your goods arrive, by sea, air or road, we handle the clearance from our office in the centre of Thessaloniki.',
+    points: {
+      port: { name: 'Port of Thessaloniki', text: 'Containers and general cargo at the ThPA terminals.' },
+      airport: { name: 'Makedonia Airport', text: 'Air freight at the cargo terminal of Thessaloniki airport.' },
+      evzoni: { name: 'Evzoni border crossing', text: 'Road freight to and from North Macedonia and the Western Balkans.' },
+      promachonas: { name: 'Promachonas border crossing', text: 'Road freight to and from Bulgaria and Central Europe.' },
+      offices: { name: 'Inland customs offices', text: 'Clearance at the customs offices of Thessaloniki and Central Macedonia.' },
+    },
+  },
   notFound: {
     title: 'Page not found',
     text: 'The page you are looking for does not exist or has moved.',

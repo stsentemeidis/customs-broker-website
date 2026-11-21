@@ -1,0 +1,26 @@
+---
+import { t, type Lang } from '../i18n';
+import { clearancePoints, clearancePointsPlaceholder } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { lang: Lang; tint?: boolean }
+const { lang, tint = false } = Astro.props;
+const d = t(lang);
+---
+<section class:list={['section', tint && 'section--mist']}>
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">{d.where.eyebrow}</p>
+      <h2>{d.where.title}{clearancePointsPlaceholder && <span class="placeholder-tag placeholder-tag--inline">{d.common.placeholder}</span>}</h2>
+      <p>{d.where.lead}</p>
+    </div>
+    <ul role="list" class="where">
+      {clearancePoints.map((p) => (
+        <li class="where__item" data-reveal>
+          <span class="where__icon"><Icon name={p.icon} size={24} /></span>
+          <h3>{d.where.points[p.key].name}</h3>
+          <p>{d.where.points[p.key].text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
