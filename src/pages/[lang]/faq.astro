@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import FaqItem from '../../components/FaqItem.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { t, langPaths, type Lang } from '../../i18n';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const f = d.faq;
+const groupId = (i: number) => `faq-${i + 1}`;
+const docsId = 'documents';
+
+// FAQPage structured data for search engines
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: f.groups.flatMap((g) => g.items.map((it) => ({
+    '@type': 'Question', name: it.q,
+    acceptedAnswer: { '@type': 'Answer', text: it.a.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() },
+  }))),
+};
+---
+<Base lang={lang} title={d.nav.faq} description={f.lead}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd)} slot="head" />
+  <PageHero lang={lang} eyebrow={f.eyebrow} title={f.title} lead={f.lead} crumbs={[{ label: d.nav.faq }]}>
+    <p class="reviewed" style="margin-top:18px"><Icon name="clock" size={16} />{f.reviewed}</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="container faq-layout">
+      <nav class="faq-toc" aria-label={f.eyebrow}>
+        <ul role="list">
+          {f.groups.map((g, i) => <li><a href={`#${groupId(i)}`}>{g.title}</a></li>)}
+          <li><a href={`#${docsId}`}>{f.docsTitle}</a></li>
+        </ul>
+      </nav>
+      <div>
+        {f.groups.map((g, i) => (
+          <section class="faq-group" id={groupId(i)} aria-labelledby={`${groupId(i)}-h`}>
+            <h2 id={`${groupId(i)}-h`}>{g.title}</h2>
+            <div class="faq-list">
+              {g.items.map((it) => <FaqItem lang={lang} q={it.q} a={it.a} />)}
+            </div>
+          </section>
+        ))}
+
+        <section class="faq-group" id={docsId}>
+          <h2>{f.docsTitle}</h2>
+          <p class="small-muted">{f.docsLead}</p>
+          <div class="doc-list">
+            {f.docs.map((doc) => (
+              <a class="doc" href={doc.href} target="_blank" rel="noopener">
+                <span class="doc__icon"><Icon name="file" size={22} /></span>
+                <span><span class="doc__title">{doc.title}</span><span class="doc__meta">{doc.source}</span></span>
+                <Icon name="external" size={18} />
+              </a>
+            ))}
+          </div>
+          <h3 style="margin-top:28px">{f.ownDocsTitle}</h3>
+          <div class="doc-list">
+            {f.ownDocs.map((doc) => (
+              <div class="doc doc--pending">
+                <span class="doc__icon"><Icon name="download" size={22} /></span>
+                <span><span class="doc__title">{doc.title}</span><span class="doc__meta">{doc.note}</span></span>
+                <span class="placeholder-tag placeholder-tag--inline" style="margin-left:auto">{d.common.placeholder}</span>
+              </div>
+            ))}
+          </div>
+          <p class="note"><Icon name="info" size={20} /><span set:html={f.disclaimer} /></p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

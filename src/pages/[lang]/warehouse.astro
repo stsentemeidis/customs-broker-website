@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { t, url, langPaths, type Lang } from '../../i18n';
+import { site } from '../../data/site';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const w = d.warehouse;
+const icons = ['clock', 'box', 'world', 'shield'] as const;
+---
+<Base lang={lang} title={d.nav.warehouse} description={w.lead}>
+  <PageHero lang={lang} eyebrow={w.eyebrow} title={w.title} lead={w.lead} crumbs={[{ label: d.nav.warehouse }]} />
+
+  <section class="section">
+    <div class="container split split--top">
+      <div data-reveal>
+        <p class="lead-text" style="font-size:1.15rem">{w.intro}</p>
+        <a class="btn btn--primary" href={`${url(lang, 'contact')}?service=customs-warehousing`}>{w.cta}<Icon name="arrow" size={18} class="icon-arrow" /></a>
+      </div>
+      <div class="contact-card" data-reveal style="flex-direction:column;position:relative">
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span class="contact-card__icon"><Icon name="warehouse" size={22} /></span>
+          <div>
+            <h3>{w.addressTitle}</h3>
+            <p>{site.warehouse.street[lang]}<br />{site.warehouse.city[lang]}</p>
+          </div>
+        </div>
+        {site.warehouse.placeholder && <span class="placeholder-tag" style="top:12px;left:auto;right:12px">{d.common.placeholder}</span>}
+        <div class="map-card" aria-hidden="true" style="margin-top:8px">
+          <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="250" fill="#E2EDF7" />
+            <path d="M0 190 Q120 160 220 200 T400 180 V250 H0Z" fill="#CFE6F5" />
+            <g stroke="#fff" stroke-width="10" stroke-linecap="round"><path d="M-10 60 L410 110" /><path d="M140 -10 L190 260" /><path d="M300 -10 L260 260" /></g>
+            <g stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.8"><path d="M0 130 L400 30" /><path d="M60 0 L90 250" /></g>
+            <circle cx="225" cy="95" r="26" fill="#0B2A4A" opacity="0.12" />
+            <path d="M225 70c-10 0-18 8-18 18c0 13 18 30 18 30s18-17 18-30c0-10-8-18-18-18z" fill="#0B2A4A" />
+            <circle cx="225" cy="88" r="6" fill="#5EC4F0" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="grid grid--4">
+        {w.benefits.map((b, i) => (
+          <div class="card" data-reveal>
+            <span class="card__icon"><Icon name={icons[i]} size={24} /></span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+      <p style="margin-top:32px"><a class="link-arrow" href={url(lang, 'services/customs-warehousing')}>{d.services.items['customs-warehousing'].name}: {d.common.readMore.toLowerCase()}<Icon name="arrow" size={18} /></a></p>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

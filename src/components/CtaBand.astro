@@ -1,0 +1,22 @@
+---
+import { t, url, type Lang } from '../i18n';
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<section class="section section--tight">
+  <div class="container">
+    <div class="cta-band" data-reveal>
+      <div>
+        <h2>{d.home.ctaTitle}</h2>
+        <p>{d.home.ctaText}</p>
+      </div>
+      <div class="cta-band__actions">
+        <a class="btn btn--light" href={url(lang, 'contact')}>{d.common.requestQuote}<Icon name="arrow" size={18} class="icon-arrow" /></a>
+        <a class="btn btn--outline-light" href={`tel:${site.phones[0].tel}`}><Icon name="phone" size={18} />{site.phones[0].display}</a>
+      </div>
+    </div>
+  </div>
+</section>

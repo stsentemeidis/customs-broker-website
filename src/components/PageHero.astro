@@ -1,0 +1,22 @@
+---
+import { t, url, type Lang } from '../i18n';
+interface Props { lang: Lang; eyebrow?: string; title: string; lead?: string; crumbs?: { href?: string; label: string }[] }
+const { lang, eyebrow, title, lead, crumbs = [] } = Astro.props;
+const d = t(lang);
+---
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero__inner">
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <li><a href={url(lang)}>{d.nav.home}</a></li>
+          {crumbs.map((c) => <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>)}
+        </ol>
+      </nav>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {lead && <p>{lead}</p>}
+      <slot />
+    </div>
+  </div>
+</section>

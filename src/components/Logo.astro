@@ -1,0 +1,21 @@
+---
+import { t, url, type Lang } from '../i18n';
+
+interface Props { lang: Lang; variant?: 'default' | 'reversed'; showTagline?: boolean }
+const { lang, variant = 'default', showTagline = true } = Astro.props;
+const d = t(lang);
+const [first, second] = d.meta.siteName.split(' & ');
+---
+<a href={url(lang)} class:list={['logo', `logo--${variant}`]} aria-label={d.meta.legalName}>
+  <svg class="logo__icon" viewBox="0 0 100 100" aria-hidden="true">
+    <rect width="100" height="100" rx="24" class="logo__bg" />
+    <path d="M38 74V44H34V30H40V34H46V30H54V34H60V30H66V44H62V74" fill="none" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M44 30V19H56V30" fill="none" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" />
+    <path d="M50 50V58" stroke="#fff" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M22 83q7-6 14 0t14 0t14 0t14 0" fill="none" stroke="#5EC4F0" stroke-width="4.5" stroke-linecap="round" />
+  </svg>
+  <span class="logo__text">
+    <span class="logo__name">{first} <span class="logo__amp">&amp;</span> {second}</span>
+    {showTagline && <span class="logo__tag">{d.meta.tagline}</span>}
+  </span>
+</a>

@@ -1,0 +1,10 @@
+---
+import { fill, type Lang } from '../i18n';
+import Icon from './Icon.astro';
+interface Props { lang: Lang; q: string; a: string; open?: boolean }
+const { lang, q, a, open = false } = Astro.props;
+---
+<details class="faq" open={open}>
+  <summary>{q}<Icon name="chevron" size={20} /></summary>
+  <div class="faq__body" set:html={fill(a, lang)} />
+</details>

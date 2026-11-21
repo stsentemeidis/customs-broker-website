@@ -1,0 +1,158 @@
+---
+// Quote request form. Posts JSON to /api/quote (Cloudflare Pages Function in /functions/api/quote.ts).
+import { t, fill, type Lang } from '../i18n';
+import { serviceSlugs } from '../data/site';
+import Icon from './Icon.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const f = d.contact.form;
+const modes = Object.entries(f.modes) as [string, string][];
+---
+<form class="form-card" id="quote-form" novalidate data-quote-form
+  data-msg-required={f.errors.required} data-msg-email={f.errors.email} data-msg-consent={f.errors.consent}
+  data-msg-generic={f.errors.generic} data-msg-success={f.success} data-msg-sending={f.sending} data-lang={lang}>
+  <h2 style="font-size:1.5rem;margin-bottom:24px">{d.contact.formTitle}</h2>
+  <div class="form-grid">
+    <div class="field" data-required>
+      <label for="q-name">{f.name}</label>
+      <input id="q-name" name="name" type="text" autocomplete="name" required />
+      <p class="error" role="alert"></p>
+    </div>
+    <div class="field">
+      <label for="q-company">{f.company} <span class="opt">({f.optional})</span></label>
+      <input id="q-company" name="company" type="text" autocomplete="organization" />
+    </div>
+    <div class="field" data-required data-type="email">
+      <label for="q-email">{f.email}</label>
+      <input id="q-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+      <p class="error" role="alert"></p>
+    </div>
+    <div class="field" data-required>
+      <label for="q-phone">{f.phone}</label>
+      <input id="q-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+      <p class="error" role="alert"></p>
+    </div>
+    <div class="field full" data-required>
+      <label for="q-service">{f.service}</label>
+      <select id="q-service" name="service" required>
+        <option value="">{f.servicePlaceholder}</option>
+        {serviceSlugs.map((s) => <option value={s}>{d.services.items[s].name}</option>)}
+        <option value="other">{f.serviceOther}</option>
+      </select>
+      <p class="error" role="alert"></p>
+    </div>
+    <fieldset class="field full">
+      <legend>{f.mode} <span class="opt">({f.optional})</span></legend>
+      <div class="segmented">
+        {modes.map(([value, label]) => (
+          <label><input type="radio" name="mode" value={value} /><span>{label}</span></label>
+        ))}
+      </div>
+    </fieldset>
+    <div class="field">
+      <label for="q-origin">{f.origin} <span class="opt">({f.optional})</span></label>
+      <input id="q-origin" name="origin" type="text" autocomplete="off" />
+    </div>
+    <div class="field">
+      <label for="q-destination">{f.destination} <span class="opt">({f.optional})</span></label>
+      <input id="q-destination" name="destination" type="text" autocomplete="off" />
+    </div>
+    <div class="field full" data-required>
+      <label for="q-goods">{f.goods}</label>
+      <input id="q-goods" name="goods" type="text" aria-describedby="q-goods-hint" required />
+      <p class="hint" id="q-goods-hint">{f.goodsHint}</p>
+      <p class="error" role="alert"></p>
+    </div>
+    <div class="field">
+      <label for="q-value">{f.value} <span class="opt">({f.optional})</span></label>
+      <input id="q-value" name="value" type="text" inputmode="decimal" />
+    </div>
+    <div class="field full">
+      <label for="q-message">{f.message} <span class="opt">({f.optional})</span></label>
+      <textarea id="q-message" name="message" rows="4"></textarea>
+    </div>
+    <div class="hp" aria-hidden="true">
+      <label for="q-website">Website</label>
+      <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <div class="field full" data-required data-type="checkbox">
+      <label class="consent"><input type="checkbox" name="consent" value="yes" required /><span set:html={fill(f.consent, lang)} /></label>
+      <p class="error" role="alert"></p>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button class="btn btn--primary" type="submit"><span data-label>{f.submit}</span><Icon name="send" size={18} /></button>
+  </div>
+  <div class="form-status" role="status" aria-live="polite" data-status></div>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
+  if (form) {
+    const msg = form.dataset;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = button.querySelector<HTMLElement>('[data-label]')!;
+    const defaultLabel = label.textContent;
+
+    // Pre-select a service from ?service=…
+    const pre = new URLSearchParams(location.search).get('service');
+    const select = form.querySelector<HTMLSelectElement>('select[name="service"]');
+    if (pre && select && [...select.options].some((o) => o.value === pre)) select.value = pre;
+
+    const validateField = (field: HTMLElement) => {
+      const input = field.querySelector<HTMLInputElement>('input, select, textarea')!;
+      const err = field.querySelector<HTMLElement>('.error');
+      let text = '';
+      if (field.dataset.type === 'checkbox') { if (!input.checked) text = msg.msgConsent!; }
+      else if (!input.value.trim()) text = msg.msgRequired!;
+      else if (field.dataset.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) text = msg.msgEmail!;
+      field.classList.toggle('has-error', !!text);
+      input.setAttribute('aria-invalid', String(!!text));
+      if (err) err.textContent = text;
+      return !text;
+    };
+
+    form.querySelectorAll<HTMLElement>('[data-required]').forEach((field) => {
+      field.querySelector('input, select, textarea')?.addEventListener('input', () => {
+        if (field.classList.contains('has-error')) validateField(field);
+      });
+      field.querySelector('input, select, textarea')?.addEventListener('change', () => {
+        if (field.classList.contains('has-error')) validateField(field);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'form-status';
+      const fields = [...form.querySelectorAll<HTMLElement>('[data-required]')];
+      const results = fields.map(validateField);
+      if (results.includes(false)) {
+        fields[results.indexOf(false)].querySelector<HTMLElement>('input, select, textarea')?.focus();
+        return;
+      }
+      button.disabled = true;
+      label.textContent = msg.msgSending!;
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, lang: msg.lang, page: location.pathname }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = msg.msgSuccess!;
+        status.className = 'form-status is-success';
+      } catch {
+        status.textContent = msg.msgGeneric!;
+        status.className = 'form-status is-error';
+      } finally {
+        button.disabled = false;
+        label.textContent = defaultLabel;
+      }
+    });
+  }
+</script>

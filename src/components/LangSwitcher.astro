@@ -1,0 +1,34 @@
+---
+// Language selector. Lists every language in src/i18n/config.ts and links to
+// the same page in the chosen language.
+import { languages, langCodes, stripLang, url, t, type Lang } from '../i18n';
+import Icon from './Icon.astro';
+
+interface Props { lang: Lang; variant?: 'header' | 'footer' }
+const { lang, variant = 'header' } = Astro.props;
+const rest = stripLang(Astro.url.pathname);
+const d = t(lang);
+---
+<details class:list={['lang', `lang--${variant}`]} data-lang-switcher>
+  <summary aria-label={`${d.nav.language}: ${languages[lang].label}`}>
+    <Icon name="world" size={18} />
+    <span>{languages[lang].short}</span>
+    <Icon name="chevron" size={16} class="lang__chev" />
+  </summary>
+  <ul class="lang__menu" role="list">
+    {langCodes.map((code) => (
+      <li>
+        <a
+          href={url(code, rest)}
+          hreflang={languages[code].htmlLang}
+          lang={languages[code].htmlLang}
+          aria-current={code === lang ? 'true' : undefined}
+        >
+          <span class="lang__short">{languages[code].short}</span>
+          <span>{languages[code].label}</span>
+          {code === lang && <Icon name="check" size={16} />}
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>

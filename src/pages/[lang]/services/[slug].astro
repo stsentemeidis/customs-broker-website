@@ -1,0 +1,86 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import ServiceCard from '../../../components/ServiceCard.astro';
+import Icon from '../../../components/Icon.astro';
+import { t, url, langCodes, type Lang } from '../../../i18n';
+import { site, serviceSlugs, type ServiceSlug } from '../../../data/site';
+
+export function getStaticPaths() {
+  return langCodes.flatMap((lang) => serviceSlugs.map((slug) => ({ params: { lang, slug } })));
+}
+const lang = Astro.params.lang as Lang;
+const slug = Astro.params.slug as ServiceSlug;
+const d = t(lang);
+const s = d.services.items[slug] as {
+  name: string; short: string; intro: string;
+  points: { title: string; text: string }[];
+  documents?: string[]; extraTitle?: string; extra?: string[];
+};
+const related = serviceSlugs.filter((x) => x !== slug).slice(0, 3);
+---
+<Base lang={lang} title={s.name} description={s.short}>
+  <PageHero lang={lang} eyebrow={d.services.eyebrow} title={s.name} lead={s.short}
+    crumbs={[{ href: url(lang, 'services'), label: d.nav.services }, { label: s.name }]} />
+
+  <section class="section">
+    <div class="container service-layout">
+      <article class="service-body">
+        <p class="lead-text">{s.intro}</p>
+
+        <div class="points">
+          {s.points.map((p) => (
+            <div class="point" data-reveal>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+          ))}
+        </div>
+
+        {s.documents && (
+          <>
+            <h2>{d.services.documentsTitle}</h2>
+            <ol class="num-list">{s.documents.map((doc) => <li>{doc}</li>)}</ol>
+            <p class="small-muted">{d.services.documentsNote}</p>
+          </>
+        )}
+
+        {s.extra && (
+          <>
+            <h2>{s.extraTitle}</h2>
+            <ul class="check-list">{s.extra.map((x) => <li><Icon name="check" size={20} /><span>{x}</span></li>)}</ul>
+          </>
+        )}
+
+        {slug === 'customs-warehousing' && (
+          <p><a class="link-arrow" href={url(lang, 'warehouse')}>{d.home.warehouseCta}<Icon name="arrow" size={18} /></a></p>
+        )}
+
+        <div class="callout">
+          <Icon name="info" size={22} />
+          <div>
+            <h3>{d.services.requirementTitle}</h3>
+            <p set:html={d.services.requirementText} />
+          </div>
+        </div>
+      </article>
+
+      <aside class="aside-card">
+        <h2>{d.services.sidebarTitle}</h2>
+        <p>{d.services.sidebarText}</p>
+        <a class="btn btn--light" href={`${url(lang, 'contact')}?service=${slug}`}>{d.common.requestQuote}<Icon name="arrow" size={18} class="icon-arrow" /></a>
+        <div class="aside-card__phones">
+          {site.phones.map((p) => <a href={`tel:${p.tel}`}><Icon name="phone" size={18} />{p.display}</a>)}
+          <a href={`mailto:${site.email}`}><Icon name="mail" size={18} />{site.email}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="section-head"><h2>{d.services.related}</h2></div>
+      <div class="grid grid--3">{related.map((r) => <ServiceCard lang={lang} slug={r} />)}</div>
+    </div>
+  </section>
+</Base>

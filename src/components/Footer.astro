@@ -1,0 +1,49 @@
+---
+import { t, url, fill, type Lang } from '../i18n';
+import { site, serviceSlugs } from '../data/site';
+import Logo from './Logo.astro';
+import LangSwitcher from './LangSwitcher.astro';
+import Icon from './Icon.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <Logo lang={lang} variant="reversed" />
+      <p>{fill(d.footer.about, lang)}</p>
+      <LangSwitcher lang={lang} variant="footer" />
+    </div>
+    <div>
+      <h2 class="footer__title">{d.footer.servicesTitle}</h2>
+      <ul role="list">
+        {serviceSlugs.map((s) => <li><a href={url(lang, `services/${s}`)}>{d.services.items[s].name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">{d.footer.companyTitle}</h2>
+      <ul role="list">
+        <li><a href={url(lang, 'about')}>{d.nav.about}</a></li>
+        <li><a href={url(lang, 'warehouse')}>{d.nav.warehouse}</a></li>
+        <li><a href={url(lang, 'faq')}>{d.nav.faq}</a></li>
+        <li><a href={url(lang, 'contact')}>{d.nav.quote}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">{d.footer.contactTitle}</h2>
+      <ul role="list" class="footer__contact">
+        <li><Icon name="pin" size={18} /><span>{site.office.street[lang]}<br />{site.office.city[lang]}</span></li>
+        {site.phones.map((p) => <li><Icon name="phone" size={18} /><a href={`tel:${p.tel}`}>{p.display}</a></li>)}
+        <li><Icon name="mail" size={18} /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><Icon name="clock" size={18} /><span>{site.hours.days[lang]}<br />{site.hours.time}</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <p>© {year} {d.meta.legalName}. {d.footer.rights}</p>
+    <a href={url(lang, 'privacy')}>{d.footer.privacy}</a>
+  </div>
+</footer>

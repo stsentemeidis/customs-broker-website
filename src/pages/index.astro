@@ -1,0 +1,23 @@
+---
+// Root URL: send visitors to their browser language (Greek by default).
+import { defaultLang, langCodes, languages } from '../i18n';
+---
+<!doctype html>
+<html lang={defaultLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exintaris &amp; Kafas</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={new URL(`/${defaultLang}/`, Astro.site)} />
+    <meta http-equiv="refresh" content={`2;url=/${defaultLang}/`} />
+    <script is:inline define:vars={{ langs: langCodes, fallback: defaultLang }}>
+      const pref = (navigator.languages || [navigator.language || '']).map((l) => l.slice(0, 2).toLowerCase());
+      const match = pref.find((l) => langs.includes(l)) || fallback;
+      location.replace('/' + match + '/');
+    </script>
+  </head>
+  <body style="font-family:system-ui,sans-serif;padding:2rem">
+    {langCodes.map((c) => <p><a href={`/${c}/`}>{languages[c].label}</a></p>)}
+  </body>
+</html>

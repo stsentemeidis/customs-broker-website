@@ -1,0 +1,65 @@
+---
+import { t, url, stripLang, type Lang } from '../i18n';
+import { site } from '../data/site';
+import Logo from './Logo.astro';
+import LangSwitcher from './LangSwitcher.astro';
+import Icon from './Icon.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = t(lang);
+const current = stripLang(Astro.url.pathname).split('/')[0];
+const links = [
+  { href: 'services', label: d.nav.services },
+  { href: 'about', label: d.nav.about },
+  { href: 'warehouse', label: d.nav.warehouse },
+  { href: 'faq', label: d.nav.faq },
+  { href: 'contact', label: d.nav.contact },
+];
+---
+<header class="header" data-header>
+  <div class="container header__inner">
+    <Logo lang={lang} />
+    <nav class="nav" aria-label="Main" id="main-nav" data-nav>
+      <ul role="list" class="nav__list">
+        {links.map((l) => (
+          <li><a href={url(lang, l.href)} aria-current={current === l.href ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+      <div class="nav__mobile-extra">
+        <a class="btn btn--primary btn--block" href={url(lang, 'contact')}>{d.nav.quote}</a>
+        <a class="btn btn--ghost btn--block" href={`tel:${site.phones[0].tel}`}><Icon name="phone" size={18} />{site.phones[0].display}</a>
+      </div>
+    </nav>
+    <div class="header__actions">
+      <a class="header__phone" href={`tel:${site.phones[0].tel}`}><Icon name="phone" size={18} /><span>{site.phones[0].display}</span></a>
+      <LangSwitcher lang={lang} />
+      <a class="btn btn--primary btn--sm header__cta" href={url(lang, 'contact')}>{d.nav.quote}</a>
+      <button class="nav-toggle" type="button" aria-controls="main-nav" aria-expanded="false" data-nav-toggle
+        data-label-open={d.nav.menu} data-label-close={d.nav.close} aria-label={d.nav.menu}>
+        <span class="nav-toggle__open"><Icon name="menu" size={24} /></span>
+        <span class="nav-toggle__close"><Icon name="x" size={24} /></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
+    document.body.classList.toggle('nav-open', open);
+  });
+  // Close language menus when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll<HTMLDetailsElement>('[data-lang-switcher][open]').forEach((el) => {
+      if (!el.contains(e.target as Node)) el.open = false;
+    });
+  });
+</script>

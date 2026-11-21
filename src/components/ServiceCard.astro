@@ -1,0 +1,15 @@
+---
+import { t, url, type Lang } from '../i18n';
+import { serviceIcons, type ServiceSlug } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { lang: Lang; slug: ServiceSlug; feature?: boolean }
+const { lang, slug, feature = false } = Astro.props;
+const d = t(lang);
+const s = d.services.items[slug];
+---
+<a href={url(lang, `services/${slug}`)} class:list={['card', feature && 'card--feature']} data-reveal>
+  <span class="card__icon"><Icon name={serviceIcons[slug]} size={26} /></span>
+  <h3>{s.name}</h3>
+  <p>{s.short}</p>
+  <span class="link-arrow">{d.common.learnMore}<Icon name="arrow" size={18} /></span>
+</a>

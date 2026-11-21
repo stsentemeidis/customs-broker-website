@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import QuoteForm from '../../components/QuoteForm.astro';
+import Icon from '../../components/Icon.astro';
+import { t, langPaths, type Lang } from '../../i18n';
+import { site } from '../../data/site';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const c = d.contact;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${site.office.lat},${site.office.lng}`;
+---
+<Base lang={lang} title={d.nav.contact} description={c.lead}>
+  <PageHero lang={lang} eyebrow={c.eyebrow} title={c.title} lead={c.lead} crumbs={[{ label: d.nav.contact }]} />
+
+  <section class="section">
+    <div class="container contact-layout">
+      <div>
+        <h2 style="font-size:1.5rem">{c.detailsTitle}</h2>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <span class="contact-card__icon"><Icon name="phone" size={22} /></span>
+            <div>
+              <h3>{d.common.phone}</h3>
+              {site.phones.map((p) => (
+                <p><a href={`tel:${p.tel}`}>{p.display}</a><small>{p.type === 'landline' ? d.common.landline : d.common.mobile}</small></p>
+              ))}
+            </div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card__icon"><Icon name="mail" size={22} /></span>
+            <div><h3>{d.common.email}</h3><p><a href={`mailto:${site.email}`}>{site.email}</a></p></div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card__icon"><Icon name="clock" size={22} /></span>
+            <div><h3>{d.common.hours}</h3><p>{site.hours.days[lang]}<br />{site.hours.time}</p></div>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card__icon"><Icon name="pin" size={22} /></span>
+            <div><h3>{d.common.address}</h3><p>{site.office.street[lang]}<br />{site.office.city[lang]}</p></div>
+          </div>
+          <a class="map-card" href={mapsUrl} target="_blank" rel="noopener">
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="250" fill="#E2EDF7" />
+              <path d="M0 200 Q100 175 200 205 T400 195 V250 H0Z" fill="#CFE6F5" />
+              <g stroke="#fff" stroke-width="12" stroke-linecap="round"><path d="M-10 140 L410 90" /><path d="M120 -10 L160 260" /></g>
+              <g stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.85"><path d="M-10 60 L410 30" /><path d="M260 -10 L240 260" /><path d="M0 175 L400 150" /></g>
+              <circle cx="200" cy="112" r="28" fill="#0B2A4A" opacity="0.12" />
+              <path d="M200 84c-11 0-20 9-20 20c0 15 20 33 20 33s20-18 20-33c0-11-9-20-20-20z" fill="#0B2A4A" />
+              <circle cx="200" cy="104" r="7" fill="#5EC4F0" />
+            </svg>
+            <span class="map-card__label"><Icon name="pin" size={16} />{d.common.directions}<Icon name="external" size={14} /></span>
+          </a>
+        </div>
+      </div>
+      <QuoteForm lang={lang} />
+    </div>
+  </section>
+</Base>

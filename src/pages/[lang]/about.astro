@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Icon from '../../components/Icon.astro';
+import { t, fill, langPaths, type Lang } from '../../i18n';
+import { site } from '../../data/site';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const a = d.about;
+const valueIcons = ['clipboard', 'clock', 'shield'] as const;
+---
+<Base lang={lang} title={d.nav.about} description={a.lead}>
+  <PageHero lang={lang} eyebrow={a.eyebrow} title={a.title} lead={a.lead} crumbs={[{ label: d.nav.about }]} />
+
+  <section class="section">
+    <div class="container split split--top">
+      <div data-reveal>
+        <h2>{a.storyTitle}</h2>
+        {a.story.map((p) => <p>{fill(p, lang)}</p>)}
+        {site.foundedYear && <span class="placeholder-tag placeholder-tag--inline">{d.common.placeholder}: {site.foundedYear}</span>}
+      </div>
+      <div class="numbers" data-reveal>
+        {a.numbers.map((n) => <div class="number"><strong>{fill(n.value, lang)}</strong><span>{n.label}</span></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container">
+      <div class="section-head"><h2>{a.valuesTitle}</h2></div>
+      <div class="grid grid--3">
+        {a.values.map((v, i) => (
+          <div class="card card--feature" data-reveal>
+            <span class="card__icon"><Icon name={valueIcons[i]} size={26} /></span>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="team">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{a.teamTitle}</h2>
+        <p>{a.teamLead}</p>
+      </div>
+      <ul role="list" class="team">
+        {site.team.map((m) => (
+          <li class="member" data-reveal>
+            <div class="member__photo">
+              {m.placeholder && <span class="placeholder-tag">{d.common.placeholder}</span>}
+              <Icon name="user" size={80} />
+            </div>
+            <p class="member__name">{m.name[lang]}</p>
+            <p class="member__role">{m.role[lang]}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

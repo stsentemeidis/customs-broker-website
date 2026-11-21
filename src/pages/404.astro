@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { t, url, defaultLang, langCodes, languages } from '../i18n';
+const lang = defaultLang;
+const d = t(lang);
+---
+<Base lang={lang} title={d.notFound.title}>
+  <section class="section">
+    <div class="container" style="max-width:720px;text-align:center">
+      <p class="eyebrow">404</p>
+      <h1>{d.notFound.title}</h1>
+      <p>{d.notFound.text}</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+        {langCodes.map((c) => (
+          <a class="btn btn--ghost" href={url(c)}>{t(c).notFound.back} ({languages[c].short})<Icon name="arrow" size={18} class="icon-arrow" /></a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

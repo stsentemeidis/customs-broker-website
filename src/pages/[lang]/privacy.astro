@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { t, langPaths, type Lang } from '../../i18n';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+---
+<Base lang={lang} title={d.privacy.title}>
+  <PageHero lang={lang} title={d.privacy.title} crumbs={[{ label: d.privacy.title }]} />
+  <section class="section">
+    <div class="container"><div class="prose" set:html={d.privacy.body} /></div>
+  </section>
+</Base>

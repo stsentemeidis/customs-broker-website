@@ -1,0 +1,186 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import TowerArt from '../../components/TowerArt.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import FaqItem from '../../components/FaqItem.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { t, url, fill, langPaths, type Lang } from '../../i18n';
+import { site, serviceSlugs } from '../../data/site';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const d = t(lang);
+const h = d.home;
+const trustIcons = ['certificate', 'shield', 'clipboard', 'info'] as const;
+const faqPreview = [d.faq.groups[0].items[1], d.faq.groups[0].items[3], d.faq.groups[1].items[0], d.faq.groups[4].items[0]];
+---
+<Base lang={lang}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div>
+        <p class="eyebrow">{h.eyebrow}</p>
+        <h1 set:html={h.title} />
+        <p class="hero__lead">{fill(h.lead, lang)}</p>
+        <div class="hero__ctas">
+          <a class="btn btn--light" href={url(lang, 'contact')}>{d.common.requestQuote}<Icon name="arrow" size={18} class="icon-arrow" /></a>
+          <a class="btn btn--outline-light" href={`tel:${site.phones[0].tel}`}><Icon name="phone" size={18} />{d.common.callUs}</a>
+        </div>
+        <dl class="hero__facts">
+          {h.facts.map((f) => (
+            <div><dt>{fill(f.value, lang)}</dt><dd>{f.label}</dd></div>
+          ))}
+        </dl>
+      </div>
+      <div class="hero__visual" aria-hidden="true">
+        <TowerArt />
+        <span class="chip-float"><Icon name="pin" size={16} />{h.portChip}</span>
+        <div class="status-card">
+          <div class="status-card__head">
+            <span>{d.services.items.imports.name}</span>
+            <span class="status-card__badge"><Icon name="check" size={12} />OK</span>
+          </div>
+          <ol>
+            {h.steps.map((s) => (
+              <li><span class="status-card__dot"><Icon name="check" size={13} /></span>{s.title}</li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <div class="trust">
+    <div class="container"><ul role="list">
+      {h.trust.map((item, i) => <li><Icon name={trustIcons[i]} size={20} />{item}</li>)}
+    </ul></div>
+  </div>
+
+  <!-- Services -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{h.servicesEyebrow}</p>
+        <h2>{h.servicesTitle}</h2>
+        <p>{h.servicesLead}</p>
+      </div>
+      <div class="grid grid--3">
+        {serviceSlugs.map((slug) => <ServiceCard lang={lang} slug={slug} />)}
+        <a href={url(lang, 'contact')} class="card card--feature" data-reveal>
+          <span class="card__icon"><Icon name="send" size={26} /></span>
+          <h3>{h.ctaTitle}</h3>
+          <p>{h.ctaText}</p>
+          <span class="link-arrow">{d.common.requestQuote}<Icon name="arrow" size={18} /></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section section--navy">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{h.howEyebrow}</p>
+        <h2>{h.howTitle}</h2>
+      </div>
+      <ol class="steps">
+        {h.steps.map((s, i) => (
+          <li class="step" data-reveal>
+            <span class="step__num">{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Getting started -->
+  <section class="section section--mist">
+    <div class="container split">
+      <div data-reveal>
+        <p class="eyebrow">{h.startEyebrow}</p>
+        <h2>{h.startTitle}</h2>
+        <p class="small-muted" set:html={d.services.requirementText} />
+        <a class="link-arrow" href={url(lang, 'faq')}>{h.startCta}<Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="start-box" data-reveal>
+        {h.startItems.map((s, i) => (
+          <div class="start-item">
+            <span class="start-item__tag">{i === 0 ? 'EORI' : 'ICISnet'}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Warehouse -->
+  <section class="section">
+    <div class="container split">
+      <div class="warehouse-visual" data-reveal aria-hidden="true">
+        <svg viewBox="0 0 320 240" fill="none">
+          <g stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M40 200V100L160 50L280 100V200" />
+            <path d="M40 200H280" />
+            <path d="M100 200V130H220V200" />
+            <path d="M100 152H220M100 176H220" opacity="0.5" />
+          </g>
+          <g stroke-width="3" stroke-linejoin="round">
+            <rect x="112" y="182" width="30" height="18" rx="2" stroke="#5EC4F0" />
+            <rect x="146" y="182" width="30" height="18" rx="2" stroke="#5EC4F0" />
+            <rect x="129" y="162" width="30" height="18" rx="2" stroke="#5EC4F0" />
+          </g>
+          <path d="M20 222q10-8 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" stroke="#5EC4F0" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+          <circle cx="160" cy="86" r="10" stroke="#5EC4F0" stroke-width="3" />
+          <path d="M155 86l4 4l7-8" stroke="#5EC4F0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div data-reveal>
+        <p class="eyebrow">{h.warehouseEyebrow}</p>
+        <h2>{h.warehouseTitle}</h2>
+        <p>{h.warehouseText}</p>
+        <ul class="check-list">
+          {d.warehouse.benefits.slice(0, 3).map((b) => <li><Icon name="check" size={20} /><span><strong>{b.title}.</strong> {b.text}</span></li>)}
+        </ul>
+        <a class="btn btn--ghost" href={url(lang, 'warehouse')}>{h.warehouseCta}<Icon name="arrow" size={18} class="icon-arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team teaser -->
+  <section class="section section--mist">
+    <div class="container">
+      <div class="split split--top">
+        <div class="section-head" data-reveal style="margin-bottom:0">
+          <p class="eyebrow">{h.teamEyebrow}</p>
+          <h2>{h.teamTitle}</h2>
+          <p>{h.teamText}</p>
+          <a class="link-arrow" href={url(lang, 'about')}>{h.teamCta}<Icon name="arrow" size={18} /></a>
+        </div>
+        <div class="numbers" data-reveal>
+          {d.about.numbers.map((n) => <div class="number"><strong>{fill(n.value, lang)}</strong><span>{n.label}</span></div>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ preview -->
+  <section class="section">
+    <div class="container split split--top">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{h.faqEyebrow}</p>
+        <h2>{h.faqTitle}</h2>
+        <a class="btn btn--ghost" href={url(lang, 'faq')}>{h.faqCta}<Icon name="arrow" size={18} class="icon-arrow" /></a>
+      </div>
+      <div class="faq-list" data-reveal>
+        {faqPreview.map((f, i) => <FaqItem lang={lang} q={f.q} a={f.a} open={i === 0} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

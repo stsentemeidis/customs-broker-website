@@ -1,0 +1,44 @@
+---
+// Tabler outline icons, inlined at build time (no runtime JS).
+import phone from '@tabler/icons/outline/phone.svg?raw';
+import mail from '@tabler/icons/outline/mail.svg?raw';
+import pin from '@tabler/icons/outline/map-pin.svg?raw';
+import clock from '@tabler/icons/outline/clock.svg?raw';
+import arrow from '@tabler/icons/outline/arrow-right.svg?raw';
+import check from '@tabler/icons/outline/check.svg?raw';
+import file from '@tabler/icons/outline/file-text.svg?raw';
+import ship from '@tabler/icons/outline/ship.svg?raw';
+import plane from '@tabler/icons/outline/plane.svg?raw';
+import truck from '@tabler/icons/outline/truck.svg?raw';
+import pkg from '@tabler/icons/outline/package.svg?raw';
+import warehouse from '@tabler/icons/outline/building-warehouse.svg?raw';
+import route from '@tabler/icons/outline/route.svg?raw';
+import shield from '@tabler/icons/outline/shield-check.svg?raw';
+import world from '@tabler/icons/outline/world.svg?raw';
+import chevron from '@tabler/icons/outline/chevron-down.svg?raw';
+import menu from '@tabler/icons/outline/menu-2.svg?raw';
+import x from '@tabler/icons/outline/x.svg?raw';
+import download from '@tabler/icons/outline/download.svg?raw';
+import user from '@tabler/icons/outline/user.svg?raw';
+import certificate from '@tabler/icons/outline/file-certificate.svg?raw';
+import exchange from '@tabler/icons/outline/arrows-exchange.svg?raw';
+import recycle from '@tabler/icons/outline/recycle.svg?raw';
+import box from '@tabler/icons/outline/box.svg?raw';
+import clipboard from '@tabler/icons/outline/clipboard-check.svg?raw';
+import send from '@tabler/icons/outline/send.svg?raw';
+import factory from '@tabler/icons/outline/building-factory-2.svg?raw';
+import info from '@tabler/icons/outline/info-circle.svg?raw';
+import external from '@tabler/icons/outline/external-link.svg?raw';
+
+const icons = { phone, mail, pin, clock, arrow, check, file, ship, plane, truck, package: pkg, warehouse, route, shield, world, chevron, menu, x, download, user, certificate, exchange, recycle, box, clipboard, send, factory, info, external };
+export type IconName = keyof typeof icons;
+
+interface Props { name: IconName; size?: number; class?: string; label?: string }
+const { name, size = 20, class: className = '', label } = Astro.props;
+const svg = icons[name]
+  .replace(/<path stroke="none" d="M0 0h24v24H0z" fill="none" \/>/, '')
+  .replace(/width="24"/, `width="${size}"`)
+  .replace(/height="24"/, `height="${size}"`)
+  .replace(/class="[^"]*"/, `class="icon ${className}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} focusable="false"`);
+---
+<Fragment set:html={svg} />
